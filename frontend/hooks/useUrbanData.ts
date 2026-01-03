@@ -22,9 +22,10 @@ export function useUrbanData(metricName?: string) {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
                 const url = metricName
-                    ? `http://localhost:8080/data?metric=${encodeURIComponent(metricName)}`
-                    : 'http://localhost:8080/data';
+                    ? `${apiUrl}/data?metric=${encodeURIComponent(metricName)}`
+                    : `${apiUrl}/data`;
 
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('Failed to fetch data');

@@ -83,7 +83,8 @@ export default function MapPage() {
         if (selectedZone !== 'All') params.append('zone', selectedZone);
 
         // Fetch Crime Stats (for Zones)
-        fetch(`http://localhost:8080/incidents/stats?${params.toString()}`)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        fetch(`${apiUrl}/incidents/stats?${params.toString()}`)
             .then(res => res.json())
             .then(data => {
                 const normalized: Record<string, number> = {};
@@ -96,7 +97,7 @@ export default function MapPage() {
             .catch(err => console.error("Failed to fetch crime stats", err));
 
         // Fetch Incident Locations (for Heatmap)
-        fetch(`http://localhost:8080/incidents/locations?${params.toString()}`)
+        fetch(`${apiUrl}/incidents/locations?${params.toString()}`)
             .then(res => res.json())
             .then(data => setHeatmapPoints(data))
             .catch(err => console.error("Failed to fetch locations", err));
